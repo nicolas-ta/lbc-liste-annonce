@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AFDE0CC5263EAE2A0090221A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE0CC4263EAE2A0090221A /* AppDelegate.swift */; };
-		AFDE0CC7263EAE2A0090221A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE0CC6263EAE2A0090221A /* SceneDelegate.swift */; };
 		AFDE0CC9263EAE2A0090221A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE0CC8263EAE2A0090221A /* ViewController.swift */; };
 		AFDE0CCE263EAE2C0090221A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFDE0CCD263EAE2C0090221A /* Assets.xcassets */; };
 		AFDE0CD1263EAE2C0090221A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFDE0CCF263EAE2C0090221A /* LaunchScreen.storyboard */; };
@@ -22,7 +21,6 @@
 /* Begin PBXFileReference section */
 		AFDE0CC1263EAE2A0090221A /* TestLBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestLBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFDE0CC4263EAE2A0090221A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AFDE0CC6263EAE2A0090221A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AFDE0CC8263EAE2A0090221A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AFDE0CCD263EAE2C0090221A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFDE0CD0263EAE2C0090221A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -64,9 +62,9 @@
 		AFDE0CC3263EAE2A0090221A /* TestLBC */ = {
 			isa = PBXGroup;
 			children = (
-				AFDE0CE5263EEE9F0090221A /* UI */,
 				AFDE0CDC263EAEE40090221A /* Common */,
 				AFDE0CDB263EAED80090221A /* Controllers */,
+				AFDE0CE5263EEE9F0090221A /* UI */,
 				AFDE0CDA263EAECE0090221A /* Models */,
 				AFDE0CD9263EAEBB0090221A /* ViewModels */,
 				AFDE0CD8263EAEB20090221A /* Services */,
@@ -114,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				AFDE0CC4263EAE2A0090221A /* AppDelegate.swift */,
-				AFDE0CC6263EAE2A0090221A /* SceneDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -211,7 +208,6 @@
 				AFDE0CEA263EF0890090221A /* AdsTableViewCell.swift in Sources */,
 				AFDE0CE2263EB8E60090221A /* AdvertisementViewModel.swift in Sources */,
 				AFDE0CE4263EE7830090221A /* APIService.swift in Sources */,
-				AFDE0CC7263EAE2A0090221A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +276,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -335,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
