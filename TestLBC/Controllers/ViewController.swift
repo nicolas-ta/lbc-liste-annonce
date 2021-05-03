@@ -39,23 +39,19 @@ class ViewController: UIViewController {
 
 	// MARK: - Properties
 	private var adsViewModel : AdvertisementViewModel!
-	var titles: [String] = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"]
 
 	lazy var adsCollectionView: UICollectionView? = {
 
-		let itemSize = UIScreen.main.bounds.width/2 - 3
-		//
 		let layout = UICollectionViewFlowLayout()
 		layout.estimatedItemSize = .zero
 		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		layout.minimumInteritemSpacing = 3
 		layout.minimumLineSpacing = 3
-		layout.itemSize = CGSize(width: itemSize, height: itemSize)
 
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.register(AdsCollectionViewCell.self, forCellWithReuseIdentifier: "AdsCollectionViewCell")
 
-		collectionView.backgroundColor = .white
+		collectionView.backgroundColor = .orange
 		collectionView.delegate = self
 		collectionView.dataSource = self
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,19 +65,7 @@ class ViewController: UIViewController {
 			return
 		}
 
-		if UIDevice.current.orientation.isLandscape,
-			 let layout = adsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-			let width = UIScreen.main.bounds.width/2 - 3
-			layout.estimatedItemSize = .zero
-			layout.itemSize = CGSize(width: width - 16, height: 300)
-			layout.invalidateLayout()
-		} else if UIDevice.current.orientation.isPortrait,
-							let layout = adsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-			let width = UIScreen.main.bounds.width/2 - 3
-			layout.estimatedItemSize = .zero
-			layout.itemSize = CGSize(width: width - 16, height: 300)
-			layout.invalidateLayout()
-		}
+		adsCollectionView.collectionViewLayout.invalidateLayout()
 
 	}
 
@@ -95,8 +79,6 @@ class ViewController: UIViewController {
 
 	func updateDataSource(){
 		DispatchQueue.main.async {
-			print("Update Data Source")
-			print("count:", self.adsViewModel.adsData.count)
 			self.adsCollectionView?.reloadData()
 		}
 	}
@@ -113,16 +95,16 @@ extension ViewController {
 		if #available(iOS 13.0, *) {
 			overrideUserInterfaceStyle = .light
 		}
-		self.view.backgroundColor = .white
+		self.view.backgroundColor = .orange
 
 		self.view.addSubview(adsCollectionView)
 
 		NSLayoutConstraint.activate([
-			adsCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-//			adsCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-			adsCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -3),
+			adsCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
+			adsCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10),
+			adsCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10),
 			adsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-			adsCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 3)
+
 		])
 	}
 }
@@ -143,12 +125,12 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
 
 
 		if UIDevice.current.orientation.isLandscape {
-			width = UIScreen.main.bounds.width/2 - 6
+			width = UIScreen.main.bounds.width/3 - 9
 			return CGSize(width: width, height: 300)
 
 		} else {
 			width = UIScreen.main.bounds.width/2 - 6
-			return CGSize(width: width, height: 300)
+			return CGSize(width: width - 6, height: 300)
 
 		}
 

@@ -31,6 +31,9 @@ extension UIImageView {
 				 else {
 						 return
 				 }
+			DispatchQueue.main.async { // Make sure you're on the main thread here
+			self?.image = image
+			}
 		 }).resume()
  }
 }

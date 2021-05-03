@@ -25,8 +25,17 @@ class AdvertisementViewModel: NSObject {
 	}
 
 	func callFuncToGetAdsData() {
-		self.apiService.apiToGetAdData{ (ads) in
+		self.apiService.apiToGetAdData{ (ads, error) in
+			
+			if let error = error {
+				print("error:", error)
+				return
+			}
+			if let ads = ads {
 			self.adsData = ads
+			} else {
+				print("error: no data")
+			}
 		}
 	}
 }
