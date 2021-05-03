@@ -12,11 +12,11 @@ class AdvertisementViewModel: NSObject {
 
 	private(set) var adsData : Advertisement! {
 			didSet {
-					self.bindAdvertisementViewModelToController()
+					self.bindAdsViewModelToController()
 			}
 	}
 
-	var bindAdvertisementViewModelToController : (() -> ()) = {}
+	var bindAdsViewModelToController : (() -> ()) = {}
 
 	override init() {
 		super.init()
