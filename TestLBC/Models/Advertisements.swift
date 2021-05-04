@@ -12,7 +12,7 @@ import Foundation
 */
 
 // MARK: - AdvertisementElement
-struct AdvertisementElement: Codable {
+struct Advertisement: Codable {
 		let id, categoryID: Int
 		let title, advertisementDescription: String
 		let price: Int
@@ -39,4 +39,4 @@ struct ImagesURL: Codable {
 		let small, thumb: String?
 }
 
-typealias Advertisement = [AdvertisementElement]
+typealias Advertisements = [Advertisement]

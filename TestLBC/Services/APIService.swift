@@ -9,10 +9,12 @@ import Foundation
 
 class APIService :  NSObject {
 
-	private let sourcesURL = URL(string: "https://raw.githubusercontent.com/leboncoin/paperclip/master/listing.json")!
+	private let BASE_URL = "https://raw.githubusercontent.com/leboncoin/paperclip/master"
+	private let ADS_ENDPOINT = "/listing.json"
+	private let CATEGORIES_ENDPOINT = "/categories.json"
 
-	func apiToGetAdData(completion : @escaping (Advertisement?, Error?) -> ()){
-		URLSession.shared.dataTask(with: sourcesURL) { (data, urlResponse, error) in
+	func getAdsData(completion : @escaping (Advertisements?, Error?) -> ()){
+		URLSession.shared.dataTask(with: URL(string: BASE_URL + ADS_ENDPOINT)!) { (data, urlResponse, error) in
 			guard let data = data else {
 				completion(nil, error)
 				return
@@ -20,11 +22,31 @@ class APIService :  NSObject {
 
 				let jsonDecoder = JSONDecoder()
 
-			let adsData = try? jsonDecoder.decode(Advertisement.self, from: data)
+			let adsData = try? jsonDecoder.decode(Advertisements.self, from: data)
 
 
 			if let adsData = adsData {
 				completion(adsData, nil)
+			} else {
+				completion(nil, nil)
+			}
+		}.resume()
+	}
+
+	func getCategoriesData(completion : @escaping (Categories?, Error?) -> ()){
+		URLSession.shared.dataTask(with: URL(string: BASE_URL + CATEGORIES_ENDPOINT)!) { (data, urlResponse, error) in
+			guard let data = data else {
+				completion(nil, error)
+				return
+			}
+
+				let jsonDecoder = JSONDecoder()
+
+			let categories = try? jsonDecoder.decode(Categories.self, from: data)
+
+
+			if let categories = categories {
+				completion(categories, nil)
 			} else {
 				completion(nil, nil)
 			}
