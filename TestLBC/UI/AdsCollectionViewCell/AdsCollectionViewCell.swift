@@ -20,7 +20,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
 				bg.image = UIImage(named: "no_image")
 				return
 			}
-			bg.downloadImageFromUrl(urlString)
+			bg.replaceImageFromUrl(urlString)
 
 			titleLabel.text = data.title
 			priceLabel.text = " € " + String(data.price)
@@ -117,22 +117,11 @@ class AdsCollectionViewCell: UICollectionViewCell {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
-	//
-	//	lazy var productImage: UIImageView = {
-	//		let image = UIImageView()
-	//		image.contentMode = .scaleAspectFit
-	//		return image
-	//	}()
-
 }
 
 // MARK: - UI Setup
 extension AdsCollectionViewCell {
 	private func setupUI() {
-		//		self.contentView.addSubview(roundedBackgroundView)
-		//		roundedBackgroundView.addSubview(titleLabel)
-
-//		self.contentView.layer.shadowColor = UIColor.black.cgColor
 		self.contentView.layer.shadowRadius = 1
 		self.contentView.layer.shadowOpacity = 0.2
 		self.contentView.layer.shadowOffset = .zero

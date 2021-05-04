@@ -8,6 +8,8 @@
 import Foundation
 
 class AdvertisementViewModel: NSObject {
+
+	// MARK: - Properties
 	private var apiService: APIService!
 
 	private(set) var adsData : Advertisements! {
@@ -33,15 +35,26 @@ class AdvertisementViewModel: NSObject {
 	var selectedAd: Advertisement?
 	var bindAdsViewModelToController : (() -> ()) = {}
 
+
+	// MARK: - Lifetime
 	override init() {
 		super.init()
 		self.apiService = APIService()
 		getCategoryData()
 		getAdsData()
-
 	}
 
-	func getAdsData() {
+
+	// MARK: - Public methods
+	func select(categoryIndex: Int) {
+		selectedCategoryIndex = categoryIndex
+		updateListData()
+	}
+
+	// MARK: - Private methods
+
+	// Use the api service to get ads data
+	private func getAdsData() {
 		self.apiService.getAdsData{ (ads, error) in
 			
 			if let error = error {
@@ -57,14 +70,16 @@ class AdvertisementViewModel: NSObject {
 		}
 	}
 
-	func updateListData() {
+	// Update the list with correct order and filter
+	private func updateListData() {
 		guard var tempAdsData = adsData else { return }
 		tempAdsData = filteredAdsData(tempAdsData)
 		tempAdsData = sortedAdsData(tempAdsData)
 		self.filteredAdsData = tempAdsData
 	}
 
-	func filteredAdsData(_ adsData: Advertisements) -> Advertisements {
+	// Filter the list
+	private func filteredAdsData(_ adsData: Advertisements) -> Advertisements {
 		var filteredAdsData = adsData
 
 		if selectedCategoryIndex == 0 {
@@ -74,10 +89,10 @@ class AdvertisementViewModel: NSObject {
 			filteredAdsData = filteredAdsData.filter({$0.categoryID == categoryID})
 			return filteredAdsData
 		}
-
 	}
 
-	func sortedAdsData(_ adsData: Advertisements) -> Advertisements {
+	// Sort the list by date, and "isUrgent"
+	private func sortedAdsData(_ adsData: Advertisements) -> Advertisements {
 		var sortedAdsData = adsData
 
 		sortedAdsData = sortedAdsData.sorted(by: {$0.creationDate.compare($1.creationDate, options: .numeric) == .orderedDescending})
@@ -86,7 +101,8 @@ class AdvertisementViewModel: NSObject {
 		return sortedAdsData
 	}
 
-	func getCategoryData() {
+	// Use api service to get the categories
+	private func getCategoryData() {
 		self.apiService.getCategoriesData { (categories, error) in
 
 			if let error = error {
@@ -103,7 +119,8 @@ class AdvertisementViewModel: NSObject {
 		}
 	}
 
-	func populateCategories() {
+	// Populate the category dictionnary used to find correspondances easier
+	private func populateCategories() {
 		category = categories.reduce([Int: String]()) { (dict, item) -> [Int: String] in
 			var dict = dict
 			dict[item.id] = item.name
@@ -111,8 +128,5 @@ class AdvertisementViewModel: NSObject {
 		}
 	}
 
-	func select(categoryIndex: Int) {
-		selectedCategoryIndex = categoryIndex
-		updateListData()
-	}
+
 }

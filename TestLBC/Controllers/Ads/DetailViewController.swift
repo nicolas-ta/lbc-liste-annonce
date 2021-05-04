@@ -8,33 +8,11 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+
+	// MARK: - Properties
 	var currentAd: Advertisement! {
 		didSet {
-			guard let urlString = currentAd.imagesURL.thumb else {
-				productImage.image = UIImage(named: "no_image")
-				return
-			}
-			productImage.downloadImageFromUrl(urlString)
-			titleLabel.text = currentAd.title
-			isUrgentImageView.isHidden = currentAd.isUrgent ? false : true
-			priceLabel.text = " € " + String(currentAd.price)
-			descriptionLabel.text = currentAd.advertisementDescription
-			siretLabel.text = currentAd.siret != nil ? String(format: " siret: %@ ", currentAd.siret!)  : ""
-
-			// Date
-
-			let dateFormatterGet = DateFormatter()
-			dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-
-			let dateFormatterPrint = DateFormatter()
-			dateFormatterPrint.dateFormat = "'Annonce déposée le 'dd MMM yyyy', à' HH:mm:"
-
-			if let date = dateFormatterGet.date(from: currentAd.creationDate) {
-					print(dateFormatterPrint.string(from: date))
-				dateLabel.text = dateFormatterPrint.string(from: date)
-			} else {
-				 print("There was an error decoding the string")
-			}
+			setupData()
 		}
 	}
 
@@ -43,86 +21,54 @@ class DetailViewController: UIViewController {
 			categoryLabel.text = String(format: "  %@  ", categoryName)
 		}
 	}
-	
-		override func viewDidLoad() {
-				super.viewDidLoad()
-			print("CURRENTAD:", currentAd!)
 
-			view.backgroundColor = .white
-			self.navigationController?.setNavigationBarHidden(false, animated: true)
-			self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
-			self.navigationController?.navigationBar.shadowImage = UIImage()
-			self.navigationController?.navigationBar.isTranslucent = true
-			self.navigationController?.view.backgroundColor = .clear
-			setupUI()
-		}
+	// MARK: - Lifecycle Methods
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.backgroundColor = .white
+		setupNavigationBar()
+		setupUI()
+	}
 
 	override func viewWillDisappear(_ animated: Bool) {
 		self.navigationController?.setNavigationBarHidden(true, animated: true)
-
 	}
 
-	lazy var scrollView: UIScrollView = {
-				 let scroll = UIScrollView()
-				 scroll.translatesAutoresizingMaskIntoConstraints = false
-				 scroll.delegate = self
-				 scroll.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)
-				 return scroll
-		 }()
+	// MARK: - Layout properties
 
-	var productImageFullscreen = UIImageView()
+	// The vertical scrollview containing all the details
+	lazy var scrollView: UIScrollView = {
+		let scroll = UIScrollView()
+		scroll.translatesAutoresizingMaskIntoConstraints = false
+		scroll.delegate = self
+		scroll.contentSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height)
+		return scroll
+	}()
+
+	// The imageview displayed in the fullscreen mode. Zoomable.
+	private lazy var productImageFullscreen = UIImageView()
+
+	// The imageview showing the product and can be displayed in fullscreen
 	private lazy var productImage: UIImageView = {
 		let iv = UIImageView()
 		iv.contentMode = .scaleAspectFill
 		iv.clipsToBounds = true
 		iv.layer.masksToBounds = true
-		iv.image = UIImage(named: "no_image")
+		iv.image = UIImage(named: "no_image") // Default image
 		iv.translatesAutoresizingMaskIntoConstraints = false
 
 		// Add tap gesture to display the fullscreen image
 		iv.isUserInteractionEnabled = true
 		iv.isMultipleTouchEnabled = true
 		var tapgesture = UITapGestureRecognizer(target: self, action: #selector(fullScreenImage))
-		 tapgesture.numberOfTapsRequired = 1
+		tapgesture.numberOfTapsRequired = 1
 		iv.addGestureRecognizer(tapgesture)
 
 		return iv
 	}()
 
-	@objc func fullScreenImage(_ sender: UITapGestureRecognizer) {
-		let imageView = sender.view as! UIImageView
-		productImageFullscreen = UIImageView(image: imageView.image)
-		productImageFullscreen.frame = UIScreen.main.bounds
-		productImageFullscreen.contentMode = .scaleAspectFit
-		productImageFullscreen.isUserInteractionEnabled = true
-	self.navigationController?.isNavigationBarHidden = true
-	self.tabBarController?.tabBar.isHidden = true
-
-
-	let scrollView = UIScrollView()
-	scrollView.frame = UIScreen.main.bounds
-	scrollView.backgroundColor = .black
-	scrollView.frame = UIScreen.main.bounds
-	scrollView.maximumZoomScale = 4
-	scrollView.minimumZoomScale = 1.0
-	scrollView.bounces = true
-	scrollView.bouncesZoom = true
-	scrollView.showsHorizontalScrollIndicator = true
-	scrollView.showsVerticalScrollIndicator = true
-	scrollView.delegate = self
-	let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
-	scrollView.addGestureRecognizer(tap)
-	scrollView.addSubview(productImageFullscreen)
-		productImage.center = scrollView.center
-	view.addSubview(scrollView)
-}
-
-	@objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
-			self.navigationController?.isNavigationBarHidden = false
-			self.tabBarController?.tabBar.isHidden = false
-			sender.view?.removeFromSuperview()
-	}
-
+	// Small icon reflecting "is_urgent" field. Hidden if not urgent.
 	private lazy var isUrgentImageView: UIImageView = {
 		let iv = UIImageView()
 		iv.frame.size = CGSize(width: 20, height: 20)
@@ -132,6 +78,7 @@ class DetailViewController: UIViewController {
 		return iv
 	}()
 
+	// Title label without a limit to its number of lines.
 	private lazy var titleLabel: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -142,6 +89,7 @@ class DetailViewController: UIViewController {
 		return label
 	}()
 
+	// Date label that will contain the time the ad was published.
 	private lazy var dateLabel: UILabel = {
 		let label = UILabel()
 		label.backgroundColor = .white
@@ -153,6 +101,7 @@ class DetailViewController: UIViewController {
 		return label
 	}()
 
+	// The description label at the bottom of the view
 	private lazy var descriptionLabel: UILabel = {
 		let label = UILabel()
 		label.backgroundColor = .white
@@ -163,6 +112,7 @@ class DetailViewController: UIViewController {
 		return label
 	}()
 
+	// The Price label displayed on the right side of the title
 	lazy var priceLabel: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -172,6 +122,7 @@ class DetailViewController: UIViewController {
 		return label
 	}()
 
+	// The category label displayed below the title
 	lazy var categoryLabel: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 14)
@@ -184,6 +135,7 @@ class DetailViewController: UIViewController {
 		return label
 	}()
 
+	// If the ad has a Siret code, display it on the right of the category label
 	lazy var siretLabel: UILabel = {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 14)
@@ -196,6 +148,18 @@ class DetailViewController: UIViewController {
 		return label
 	}()
 
+	// MARK: - Setup
+
+	// Hide the navigation bar but keep the previous button
+	private func setupNavigationBar() {
+		self.navigationController?.setNavigationBarHidden(false, animated: true)
+		self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		self.navigationController?.navigationBar.shadowImage = UIImage()
+		self.navigationController?.navigationBar.isTranslucent = true
+		self.navigationController?.view.backgroundColor = .clear
+	}
+
+	// Setup the UI elements without any data
 	private func setupUI() {
 		view.addSubview(scrollView)
 		scrollView.addSubview(productImage)
@@ -206,9 +170,12 @@ class DetailViewController: UIViewController {
 		scrollView.addSubview(siretLabel)
 		scrollView.addSubview(dateLabel)
 		scrollView.addSubview(descriptionLabel)
+		setupConstraints()
+	}
 
+	// Setup the constraints of the UI Element
+	private func setupConstraints() {
 		NSLayoutConstraint.activate([
-
 			scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
 			scrollView.topAnchor.constraint(equalTo: view.topAnchor),
 			scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -251,12 +218,82 @@ class DetailViewController: UIViewController {
 			descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
 			descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
 			descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -30)
-																	])
+		])
+	}
+
+	// Once we have data, complete all the UI elements with data
+	private func setupData() {
+
+		// Fill all the text label with the ad data
+		titleLabel.text = currentAd.title
+		isUrgentImageView.isHidden = currentAd.isUrgent ? false : true
+		priceLabel.text = " € " + String(currentAd.price)
+		descriptionLabel.text = currentAd.advertisementDescription
+		siretLabel.text = currentAd.siret != nil ? String(format: " siret: %@ ", currentAd.siret!)  : ""
+
+		// Download the image again if it exists
+		guard let urlString = currentAd.imagesURL.thumb else {
+			productImage.image = UIImage(named: "no_image")
+			return
+		}
+		productImage.replaceImageFromUrl(urlString)
+
+		// Format the entire ad creation date introduction
+		let dateFormatterGet = DateFormatter()
+		dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
+		let dateFormatterPrint = DateFormatter()
+		dateFormatterPrint.dateFormat = "'Annonce publiée le 'dd MMM yyyy', à' HH:mm:"
+
+		if let date = dateFormatterGet.date(from: currentAd.creationDate) {
+			dateLabel.text = dateFormatterPrint.string(from: date)
+		} else {
+			print("There was an error decoding the string")
+		}
+	}
+
+
+	// MARK: - Private methods
+
+	// Display the product image in full screen, zoomable, when the image is tapped
+	@objc private func fullScreenImage(_ sender: UITapGestureRecognizer) {
+		let imageView = sender.view as! UIImageView
+		productImageFullscreen = UIImageView(image: imageView.image)
+		productImageFullscreen.frame = UIScreen.main.bounds
+		productImageFullscreen.contentMode = .scaleAspectFit
+		productImageFullscreen.isUserInteractionEnabled = true
+		self.navigationController?.isNavigationBarHidden = true
+		self.tabBarController?.tabBar.isHidden = true
+
+		let scrollView = UIScrollView()
+		scrollView.frame = UIScreen.main.bounds
+		scrollView.backgroundColor = .black
+		scrollView.frame = UIScreen.main.bounds
+		scrollView.maximumZoomScale = 4
+		scrollView.minimumZoomScale = 1.0
+		scrollView.bounces = true
+		scrollView.bouncesZoom = true
+		scrollView.showsHorizontalScrollIndicator = true
+		scrollView.showsVerticalScrollIndicator = true
+		scrollView.delegate = self
+		let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+		scrollView.addGestureRecognizer(tap)
+		scrollView.addSubview(productImageFullscreen)
+		productImage.center = scrollView.center
+		view.addSubview(scrollView)
+	}
+
+	// Dismiss the fullscreen image to get back at the detail page
+	@objc private func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+		self.navigationController?.isNavigationBarHidden = false
+		self.tabBarController?.tabBar.isHidden = false
+		sender.view?.removeFromSuperview()
 	}
 }
 
+// MARK:- Extensions
 extension DetailViewController: UIScrollViewDelegate {
 	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-			 return productImageFullscreen
-	 }
+		return productImageFullscreen
+	}
 }

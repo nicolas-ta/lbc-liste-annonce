@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		self.window = UIWindow(frame: UIScreen.main.bounds)
 		let navController = UINavigationController()
-		let controller = ViewController()
+		let controller = AdsViewController()
 		navController.viewControllers = [controller]
 		window?.tintColor = .orange
 
