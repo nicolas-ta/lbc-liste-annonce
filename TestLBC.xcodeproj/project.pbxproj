@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AF4266BA26402B7D0040A502 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4266B926402B7D0040A502 /* UIImageView+Extension.swift */; };
 		AF4266BC264099D60040A502 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4266BB264099D60040A502 /* Category.swift */; };
+		AF4266C02641824E0040A502 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4266BF2641824E0040A502 /* DetailViewController.swift */; };
+		AF4266C22641DC7E0040A502 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4266C12641DC7E0040A502 /* UIColor+Extension.swift */; };
 		AFDA39D1263F13BF0024BF09 /* AdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDA39D0263F13BF0024BF09 /* AdsCollectionViewCell.swift */; };
 		AFDE0CC5263EAE2A0090221A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE0CC4263EAE2A0090221A /* AppDelegate.swift */; };
 		AFDE0CC9263EAE2A0090221A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE0CC8263EAE2A0090221A /* ViewController.swift */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		AF4266B926402B7D0040A502 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		AF4266BB264099D60040A502 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		AF4266BF2641824E0040A502 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		AF4266C12641DC7E0040A502 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AFDA39D0263F13BF0024BF09 /* AdsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		AFDE0CC1263EAE2A0090221A /* TestLBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestLBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFDE0CC4263EAE2A0090221A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				AF4266B926402B7D0040A502 /* UIImageView+Extension.swift */,
+				AF4266C12641DC7E0040A502 /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				AFDE0CC8263EAE2A0090221A /* ViewController.swift */,
+				AF4266BF2641824E0040A502 /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -213,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF4266BA26402B7D0040A502 /* UIImageView+Extension.swift in Sources */,
+				AF4266C02641824E0040A502 /* DetailViewController.swift in Sources */,
 				AFDE0CC9263EAE2A0090221A /* ViewController.swift in Sources */,
 				AFDE0CE0263EB8D70090221A /* Advertisements.swift in Sources */,
 				AFDE0CC5263EAE2A0090221A /* AppDelegate.swift in Sources */,
@@ -220,6 +227,7 @@
 				AFDE0CE2263EB8E60090221A /* AdvertisementViewModel.swift in Sources */,
 				AFDE0CE4263EE7830090221A /* APIService.swift in Sources */,
 				AF4266BC264099D60040A502 /* Category.swift in Sources */,
+				AF4266C22641DC7E0040A502 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,13 +15,14 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		callToViewModelForUIUpdate()
-		self.navigationController?.setNavigationBarHidden(true, animated: false)
+		self.navigationController?.setNavigationBarHidden(true, animated: true)
 
 		setupUI()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
 				super.viewDidAppear(animated)
+
 				DispatchQueue.main.asyncAfter(deadline: (.now() + .milliseconds(500))) {
 					self.categoryCollectionView!.flashScrollIndicators()
 				}
@@ -80,7 +81,7 @@ class ViewController: UIViewController {
 
 	}
 
-	@objc func callToViewModelForUIUpdate(){
+	func callToViewModelForUIUpdate(){
 
 		self.adsViewModel =  AdvertisementViewModel()
 		self.adsViewModel.bindAdsViewModelToController = {
@@ -145,7 +146,6 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
 		if (collectionView.tag == 0) {
 			return self.adsViewModel.filteredAdsData.count
 		} else {
-			print("nico: self.adsViewModel.categories.count:", self.adsViewModel.categories.count)
 			return self.adsViewModel.categories.count
 		}
 	}
@@ -174,9 +174,17 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
 		guard let data = self.adsViewModel else {
 			return
 		}
-		if collectionView.tag == 1 {
-			let oldIndexPath = IndexPath(item: data.selectedCategoryIndex, section: 0)
+
+		if collectionView.tag == 0 {
+			let selected: Advertisement = data.filteredAdsData[indexPath.item]
+			let vc = DetailViewController()
+			vc.currentAd = selected
+			vc.categoryName = data.category[selected.categoryID]
+			navigationController?.pushViewController(vc, animated: true)
+
+		} else if collectionView.tag == 1 {
 			let indexPath = IndexPath(item: indexPath.item, section: 0)
+			let oldIndexPath = IndexPath(item: data.selectedCategoryIndex, section: 0)
 			if (oldIndexPath == indexPath) {
 				adsCollectionView?.setContentOffset(CGPoint(x: -10, y: 5), animated: true)
 				return
@@ -226,7 +234,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
 			title.textColor = isSelected ? .white : .darkGray
 			title.layer.cornerRadius = 5
 			title.layer.masksToBounds = true
-			title.backgroundColor = isSelected ? .orange: grayBackgroundColor
+			title.backgroundColor = isSelected ? .orangeLBC: grayBackgroundColor
 			title.text = String(data.categories[indexPath.item].name)
 			title.textAlignment = .center
 			catCell.contentView.addSubview(title)

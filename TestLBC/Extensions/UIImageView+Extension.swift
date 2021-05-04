@@ -5,7 +5,6 @@
 //  Created by Nicolas Ta on 03/05/2021.
 //
 
-import Foundation
 import UIKit
 
 extension UIImageView {
@@ -31,7 +30,7 @@ extension UIImageView {
 				 else {
 						 return
 				 }
-			DispatchQueue.main.async { // Make sure you're on the main thread here
+			DispatchQueue.main.async {
 			self?.image = image
 			}
 		 }).resume()

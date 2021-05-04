@@ -32,7 +32,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
 
 	var category: String? {
 		didSet {
-			categoryLabel.text = " " + category! + " "
+			categoryLabel.text = "  " + category! + "  "
 		}
 	}
 
@@ -99,7 +99,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
 
 	lazy var priceLabel: UILabel = {
 		let label = UILabel()
-		label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+		label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
 		label.textColor = .black
 		label.numberOfLines = 2
 		label.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +110,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 14)
 		label.textColor = .white
-		label.backgroundColor = .orange
+		label.backgroundColor = .orangeLBC
 		label.layer.cornerRadius = 5
 		label.layer.masksToBounds = true
 		label.numberOfLines = 1

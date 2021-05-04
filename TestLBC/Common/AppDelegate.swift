@@ -20,7 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let navController = UINavigationController()
 		let controller = ViewController()
 		navController.viewControllers = [controller]
+		window?.tintColor = .orange
+
 		window?.rootViewController = navController
+
 		window?.makeKeyAndVisible()
 
 		return true

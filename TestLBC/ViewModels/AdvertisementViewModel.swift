@@ -30,6 +30,7 @@ class AdvertisementViewModel: NSObject {
 
 	var category: [Int: String]!
 	var selectedCategoryIndex: Int = 0
+	var selectedAd: Advertisement?
 	var bindAdsViewModelToController : (() -> ()) = {}
 
 	override init() {
@@ -95,7 +96,6 @@ class AdvertisementViewModel: NSObject {
 			if let categories = categories {
 				var catArray = [Category(id: 0, name: "Tout")]
 				catArray.append(contentsOf: categories)
-				print("Categories:", catArray)
 				self.categories = catArray
 			} else {
 				print("error: no data")
@@ -112,7 +112,6 @@ class AdvertisementViewModel: NSObject {
 	}
 
 	func select(categoryIndex: Int) {
-		print("selected cat:", categoryIndex)
 		selectedCategoryIndex = categoryIndex
 		updateListData()
 	}
