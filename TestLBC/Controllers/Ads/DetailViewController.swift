@@ -35,7 +35,7 @@ class DetailViewController: UIViewController {
 		self.navigationController?.setNavigationBarHidden(true, animated: true)
 	}
 
-	// MARK: - Layout properties
+// MARK: - Layout properties
 
 	// The vertical scrollview containing all the details
 	lazy var scrollView: UIScrollView = {
@@ -147,9 +147,9 @@ class DetailViewController: UIViewController {
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}()
-
-	// MARK: - Setup
-
+}
+// MARK: - Setup methods
+extension DetailViewController {
 	// Hide the navigation bar but keep the previous button
 	private func setupNavigationBar() {
 		self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -251,10 +251,10 @@ class DetailViewController: UIViewController {
 			print("There was an error decoding the string")
 		}
 	}
+}
 
-
-	// MARK: - Private methods
-
+// MARK: - Private methods
+extension DetailViewController {
 	// Display the product image in full screen, zoomable, when the image is tapped
 	@objc private func fullScreenImage(_ sender: UITapGestureRecognizer) {
 		let imageView = sender.view as! UIImageView
@@ -291,7 +291,7 @@ class DetailViewController: UIViewController {
 	}
 }
 
-// MARK:- Extensions
+// MARK: - Extensions
 extension DetailViewController: UIScrollViewDelegate {
 	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
 		return productImageFullscreen

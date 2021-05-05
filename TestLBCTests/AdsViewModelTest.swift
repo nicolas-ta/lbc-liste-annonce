@@ -34,7 +34,6 @@ class AdsViewModelTest: XCTestCase {
 		XCTAssertEqual(true, sortedAd[0].creationDate.compare(sortedAd[1].creationDate, options: .numeric) == .orderedDescending)
 	}
 
-
 	override func setUpWithError() throws {
 		mockData = [
 			Advertisement(id: 0, categoryID: 0, title: "Test0", advertisementDescription: "Test 0 0", price: 120, imagesURL: ImagesURL(small: nil, thumb: nil), creationDate: "2019-10-16T17:10:20+0000", isUrgent: false, siret: nil),
@@ -42,7 +41,6 @@ class AdsViewModelTest: XCTestCase {
 		// Put setup code here. This method is called before the invocation of each test method in the class.
 
 	}
-
 
 	override func tearDownWithError() throws {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.

@@ -7,18 +7,29 @@
 
 import Foundation
 
-class APIService :  NSObject {
+enum APIError: String, Error {
+	case genericError = "Error in the API"
+	case noAdsData = "No ads data found"
+	case noCategoryData = "No category data dound"
+	case getAdsData = "Couldn't fetch Ads Data"
+	case getCategoryData = "Couldn't fetch category data"
+
+	init?(newRawValue: String) {
+		self = APIError(rawValue: newRawValue) ?? .genericError
+	}
+}
+
+class APIService: NSObject {
 
 	private let BASE_URL = "https://raw.githubusercontent.com/leboncoin/paperclip/master"
 	private let ADS_ENDPOINT = "/listing.json"
 	private let CATEGORIES_ENDPOINT = "/categories.json"
 
-
 	// Fetch ads data
-	func getAdsData(completion : @escaping (Advertisements?, Error?) -> ()){
-		URLSession.shared.dataTask(with: URL(string: BASE_URL + ADS_ENDPOINT)!) { (data, urlResponse, error) in
+	func getAdsData(completion : @escaping (Advertisements?, APIError?) -> Void) {
+		URLSession.shared.dataTask(with: URL(string: BASE_URL + ADS_ENDPOINT)!) { (data, _, _) in
 			guard let data = data else {
-				completion(nil, error)
+				completion(nil, APIError.getAdsData)
 				return
 			}
 
@@ -29,16 +40,16 @@ class APIService :  NSObject {
 			if let adsData = adsData {
 				completion(adsData, nil)
 			} else {
-				completion(nil, error)
+				completion(nil, APIError.noAdsData)
 			}
 		}.resume()
 	}
 
 	// Fetch category ids and names
-	func getCategoriesData(completion : @escaping (Categories?, Error?) -> ()){
-		URLSession.shared.dataTask(with: URL(string: BASE_URL + CATEGORIES_ENDPOINT)!) { (data, urlResponse, error) in
+	func getCategoriesData(completion : @escaping (Categories?, APIError?) -> Void) {
+		URLSession.shared.dataTask(with: URL(string: BASE_URL + CATEGORIES_ENDPOINT)!) { (data, _, error) in
 			guard let data = data else {
-				completion(nil, error)
+				completion(nil, APIError(rawValue: error.debugDescription))
 				return
 			}
 
@@ -49,9 +60,8 @@ class APIService :  NSObject {
 			if let categories = categories {
 				completion(categories, nil)
 			} else {
-				completion(nil, error)
+				completion(nil, APIError.noCategoryData)
 			}
 		}.resume()
 	}
 }
-

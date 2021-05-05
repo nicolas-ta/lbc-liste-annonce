@@ -12,15 +12,23 @@ class AdvertisementViewModel: NSObject {
 	// MARK: - Properties
 	private var apiService: APIService!
 
-	private(set) var adsData : Advertisements! {
+	private(set) var adsData: Advertisements! {
 		didSet {
+			if error != nil {
+				self.bindAdsViewModelToController(error)
+			} else {
 			self.updateListData()
+			}
 		}
 	}
 
-	private(set) var categories : Categories! {
+	private(set) var categories: Categories! {
 		didSet {
+			if error != nil {
+				self.bindAdsViewModelToController(error)
+			} else {
 			populateCategories()
+			}
 		}
 	}
 
@@ -30,12 +38,11 @@ class AdvertisementViewModel: NSObject {
 		}
 	}
 
-	var error: Error?
+	var error: APIError?
 	var category: [Int: String]!
 	var selectedCategoryIndex: Int = 0
 	var selectedAd: Advertisement?
-	var bindAdsViewModelToController : ((Error?) -> ()) = {error in }
-
+	var bindAdsViewModelToController: ((APIError?) -> Void) = {error in }
 
 	// MARK: - Lifetime
 	override init() {
@@ -44,7 +51,6 @@ class AdvertisementViewModel: NSObject {
 		getCategoryData()
 		getAdsData()
 	}
-
 
 	// MARK: - Internal methods
 	func select(categoryIndex: Int) {
@@ -75,17 +81,15 @@ class AdvertisementViewModel: NSObject {
 
 	// Use the api service to get ads data
 	private func getAdsData() {
-		self.apiService.getAdsData{ (ads, error) in
-			
+		self.apiService.getAdsData { (ads, error) in
+
 			if let error = error {
-				print("error:", error)
+				self.error = error
+				self.adsData = []
 				return
 			}
 			if let ads = ads {
 				self.adsData = ads
-
-			} else {
-				print("error: no data")
 			}
 		}
 	}
@@ -111,27 +115,22 @@ class AdvertisementViewModel: NSObject {
 		}
 	}
 
-
 	// Use api service to get the categories
 	private func getCategoryData() {
 		self.apiService.getCategoriesData { (categories, error) in
 
 			if let error = error {
-
-				print("error:", error)
+				self.error = error
+				self.categories = []
 				return
 			}
+
 			if let categories = categories {
 				var catArray = [Category(id: 0, name: "Tout")]
 				catArray.append(contentsOf: categories)
 				self.categories = catArray
-			} else {
-				print("error: no data")
 			}
 		}
 	}
-
-
-
 
 }

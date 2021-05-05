@@ -7,7 +7,6 @@
 
 import XCTest
 
-
 class TestLBCTests: XCTestCase {
 
     override func setUpWithError() throws {

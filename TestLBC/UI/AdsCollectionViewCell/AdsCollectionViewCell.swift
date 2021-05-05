@@ -12,15 +12,14 @@ class AdsCollectionViewCell: UICollectionViewCell {
 	var data: Advertisement? {
 		didSet {
 			guard let data = data else {
-				bg.image = UIImage(named: "no_image")
 				return
 			}
 
-			guard let urlString = data.imagesURL.thumb else {
+			if let urlString = data.imagesURL.thumb {
+				bg.replaceImageFromUrl(urlString)
+			} else {
 				bg.image = UIImage(named: "no_image")
-				return
 			}
-			bg.replaceImageFromUrl(urlString)
 
 			titleLabel.text = data.title
 			priceLabel.text = " € " + String(data.price)
@@ -68,7 +67,6 @@ class AdsCollectionViewCell: UICollectionViewCell {
 		iv.contentMode = .scaleAspectFit
 		return iv
 	}()
-
 
 	lazy var cellContainer: UIView = {
 
@@ -147,8 +145,6 @@ extension AdsCollectionViewCell {
 			isUrgentImageView.heightAnchor.constraint(equalToConstant: 20),
 			isUrgentImageView.widthAnchor.constraint(equalToConstant: 20),
 
-
-
 			// bg
 			bg.topAnchor.constraint(equalTo: cellContainer.topAnchor),
 			bg.leftAnchor.constraint(equalTo: cellContainer.leftAnchor),
@@ -174,7 +170,7 @@ extension AdsCollectionViewCell {
 
 			// category label
 			categoryLabel.rightAnchor.constraint(equalTo: bottomDescription.rightAnchor, constant: -5),
-			categoryLabel.bottomAnchor.constraint(equalTo: bottomDescription.bottomAnchor, constant: -5),
+			categoryLabel.bottomAnchor.constraint(equalTo: bottomDescription.bottomAnchor, constant: -5)
 		])
 
 	}

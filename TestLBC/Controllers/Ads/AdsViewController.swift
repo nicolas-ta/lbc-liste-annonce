@@ -12,9 +12,7 @@ class AdsViewController: UIViewController {
 	// MARK: - Properties
 	private let ADS_CELL_IDENTIFIER = "AdsCollectionViewCell"
 	private let CAT_CELL_IDENTIFIER = "CategoryCollectionViewCell"
-
-
-	private var adsViewModel : AdvertisementViewModel!
+	private var adsViewModel: AdvertisementViewModel!
 
 	// MARK: - Lifecycle Methods
 	override func viewDidLoad() {
@@ -90,16 +88,17 @@ class AdsViewController: UIViewController {
 	}
 
 	// Init the AdvertisementViewModel, which will set the ads data
-	private func callToViewModelForUIUpdate(){
+	private func callToViewModelForUIUpdate() {
 		self.adsViewModel =  AdvertisementViewModel()
 		self.adsViewModel.bindAdsViewModelToController = { error in
+
 			// In case the viewModel return an error
 			if let error = error {
-				let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
+				DispatchQueue.main.async {
+				let alert = UIAlertController(title: error.rawValue, message: "", preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "OK", style: .default))
-
 				self.present(alert, animated: true)
-
+				}
 			} else {
 				self.updateDataSource()
 			}
@@ -107,7 +106,7 @@ class AdsViewController: UIViewController {
 	}
 
 	// Once the data is established, reload the collectionviews
-	private func updateDataSource(){
+	private func updateDataSource() {
 		DispatchQueue.main.async {
 			self.adsCollectionView?.reloadData()
 			self.categoriesCollectionView?.reloadData()
@@ -134,21 +133,23 @@ extension AdsViewController {
 		// Add both collection views
 		view.addSubview(adsCollectionView)
 		view.addSubview(categoriesCollectionView)
-
 		setupConstraintsFor(adsCollectionView, and: categoriesCollectionView)
 	}
 
 	// Setup constraints for adsCollectionView and categoriesCollectionView
 	private func setupConstraintsFor(_ adsCollectionView: UICollectionView, and categoriesCollectionView: UICollectionView) {
 		NSLayoutConstraint.activate([
+			// Categories
 			categoriesCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
 			categoriesCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -5),
 			categoriesCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 5),
 			categoriesCollectionView.heightAnchor.constraint(equalToConstant: 40),
+
+			// Ads
 			adsCollectionView.topAnchor.constraint(equalTo: categoriesCollectionView.bottomAnchor, constant: 10),
 			adsCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 			adsCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-			adsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			adsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
 		])
 	}
 }
@@ -163,7 +164,7 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 		}
 
 		// nb: adsCollectionView.tag = 0 and categoriesCollectionView.tag = 1
-		if (collectionView.tag == 0) {
+		if collectionView.tag == 0 {
 			return self.adsViewModel.filteredAdsData.count
 		} else {
 			return self.adsViewModel.categories.count
@@ -174,7 +175,7 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 		let width: CGFloat
 
 		// Cell size of adsCollectionView for portrait and landscape
-		if (collectionView.tag == 0) {
+		if collectionView.tag == 0 {
 			if UIDevice.current.orientation.isLandscape {
 				width = UIScreen.main.bounds.width/3 - 9
 				return CGSize(width: width, height: 300)
@@ -203,7 +204,7 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 			vc.currentAd = selected
 			vc.categoryName = data.category[selected.categoryID]
 			navigationController?.pushViewController(vc, animated: true)
-			
+
 		}
 		// Select a category and filter the ads collection view
 		else if collectionView.tag == 1 {
@@ -214,7 +215,7 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 			adsCollectionView?.setContentOffset(CGPoint(x: -10, y: 5), animated: true)
 
 			// If the category already selected, do nothing
-			if (oldIndexPath == indexPath) {
+			if oldIndexPath == indexPath {
 				return
 			}
 
@@ -231,7 +232,7 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 			return UICollectionViewCell()
 		}
 
-		if (collectionView.tag == 0) {
+		if collectionView.tag == 0 {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ADS_CELL_IDENTIFIER, for: indexPath) as! AdsCollectionViewCell
 
 			let currentAd = data.filteredAdsData[indexPath.item]
