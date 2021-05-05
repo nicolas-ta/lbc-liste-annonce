@@ -121,7 +121,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
 extension AdsCollectionViewCell {
 	private func setupUI() {
 		self.contentView.layer.shadowRadius = 1
-		self.contentView.layer.shadowOpacity = 0.2
+		self.contentView.layer.shadowOpacity = 0.5
 		self.contentView.layer.shadowOffset = .zero
 		self.contentView.layer.cornerRadius = 12
 

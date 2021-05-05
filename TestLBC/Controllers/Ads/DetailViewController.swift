@@ -49,6 +49,15 @@ class DetailViewController: UIViewController {
 	// The imageview displayed in the fullscreen mode. Zoomable.
 	private lazy var productImageFullscreen = UIImageView()
 
+	private lazy var fullScreenIcon: UIImageView = {
+		let iv = UIImageView()
+		iv.frame.size = CGSize(width: 20, height: 20)
+		iv.translatesAutoresizingMaskIntoConstraints = false
+		iv.image = UIImage(named: "fullscreen_icon")
+		iv.contentMode = .scaleAspectFit
+		return iv
+	}()
+
 	// The imageview showing the product and can be displayed in fullscreen
 	private lazy var productImage: UIImageView = {
 		let iv = UIImageView()
@@ -164,6 +173,7 @@ extension DetailViewController {
 		view.addSubview(scrollView)
 		scrollView.addSubview(productImage)
 		productImage.addSubview(isUrgentImageView)
+		productImage.addSubview(fullScreenIcon)
 		scrollView.addSubview(titleLabel)
 		scrollView.addSubview(priceLabel)
 		scrollView.addSubview(categoryLabel)
@@ -184,6 +194,12 @@ extension DetailViewController {
 			productImage.topAnchor.constraint(equalTo: scrollView.topAnchor),
 			productImage.leftAnchor.constraint(equalTo: view.leftAnchor),
 			productImage.rightAnchor.constraint(equalTo: view.rightAnchor),
+
+			// fullscreen icon
+			fullScreenIcon.rightAnchor.constraint(equalTo: productImage.rightAnchor, constant: -5),
+			fullScreenIcon.bottomAnchor.constraint(equalTo: productImage.bottomAnchor, constant: -15),
+			fullScreenIcon.heightAnchor.constraint(equalToConstant: 20),
+			fullScreenIcon.widthAnchor.constraint(equalToConstant: 20),
 
 			// isUrgent icon
 			isUrgentImageView.topAnchor.constraint(equalTo: productImage.topAnchor, constant: 15),
@@ -209,12 +225,12 @@ extension DetailViewController {
 			siretLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
 
 			// Date label
-			dateLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 10),
+			dateLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 15),
 			dateLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
 			dateLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
 
 			// description label
-			descriptionLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 2),
+			descriptionLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
 			descriptionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
 			descriptionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
 			descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -30)
