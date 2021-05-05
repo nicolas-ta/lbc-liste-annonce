@@ -8,19 +8,9 @@
 import UIKit
 
 extension UIImageView {
-		func load(url: URL) {
-				DispatchQueue.global().async { [weak self] in
-						if let data = try? Data(contentsOf: url) {
-								if let image = UIImage(data: data) {
-										DispatchQueue.main.async {
-												self?.image = image
-										}
-								}
-						}
-				}
-		}
 
-	func downloadImageFromUrl(_ url: String, defaultImage: UIImage? = UIImage(named: "no_image")) {
+	// Get and replace image by URL in a different thread for performance 
+	func replaceImageFromUrl(_ url: String, defaultImage: UIImage? = UIImage(named: "no_image")) {
 		 guard let url = URL(string: url) else { return }
 		 URLSession.shared.dataTask(with: url, completionHandler: { [weak self] (data, response, error) -> Void in
 			guard let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -28,6 +18,9 @@ extension UIImageView {
 						 let data = data, error == nil,
 						 let image = UIImage(data: data)
 				 else {
+				DispatchQueue.main.async {
+				self?.image = defaultImage
+				}
 						 return
 				 }
 			DispatchQueue.main.async {

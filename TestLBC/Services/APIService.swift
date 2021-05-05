@@ -7,16 +7,14 @@
 
 import Foundation
 
-enum APIError: String, Error {
-		case decodeError = "Cannot decode JSON"
-}
-
 class APIService :  NSObject {
 
 	private let BASE_URL = "https://raw.githubusercontent.com/leboncoin/paperclip/master"
 	private let ADS_ENDPOINT = "/listing.json"
 	private let CATEGORIES_ENDPOINT = "/categories.json"
 
+
+	// Fetch ads data
 	func getAdsData(completion : @escaping (Advertisements?, Error?) -> ()){
 		URLSession.shared.dataTask(with: URL(string: BASE_URL + ADS_ENDPOINT)!) { (data, urlResponse, error) in
 			guard let data = data else {
@@ -24,19 +22,19 @@ class APIService :  NSObject {
 				return
 			}
 
-				let jsonDecoder = JSONDecoder()
+			let jsonDecoder = JSONDecoder()
 
 			let adsData = try? jsonDecoder.decode(Advertisements.self, from: data)
-
 
 			if let adsData = adsData {
 				completion(adsData, nil)
 			} else {
-				completion(nil, APIError.decodeError)
+				completion(nil, error)
 			}
 		}.resume()
 	}
 
+	// Fetch category ids and names
 	func getCategoriesData(completion : @escaping (Categories?, Error?) -> ()){
 		URLSession.shared.dataTask(with: URL(string: BASE_URL + CATEGORIES_ENDPOINT)!) { (data, urlResponse, error) in
 			guard let data = data else {
@@ -44,16 +42,16 @@ class APIService :  NSObject {
 				return
 			}
 
-				let jsonDecoder = JSONDecoder()
+			let jsonDecoder = JSONDecoder()
 
 			let categories = try? jsonDecoder.decode(Categories.self, from: data)
-
 
 			if let categories = categories {
 				completion(categories, nil)
 			} else {
-				completion(nil, APIError.decodeError)
+				completion(nil, error)
 			}
 		}.resume()
 	}
 }
+
