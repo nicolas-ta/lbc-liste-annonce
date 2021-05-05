@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum APIError: String, Error {
+		case decodeError = "Cannot decode JSON"
+}
+
 class APIService :  NSObject {
 
 	private let BASE_URL = "https://raw.githubusercontent.com/leboncoin/paperclip/master"
@@ -28,7 +32,7 @@ class APIService :  NSObject {
 			if let adsData = adsData {
 				completion(adsData, nil)
 			} else {
-				completion(nil, nil)
+				completion(nil, APIError.decodeError)
 			}
 		}.resume()
 	}
@@ -48,7 +52,7 @@ class APIService :  NSObject {
 			if let categories = categories {
 				completion(categories, nil)
 			} else {
-				completion(nil, nil)
+				completion(nil, APIError.decodeError)
 			}
 		}.resume()
 	}

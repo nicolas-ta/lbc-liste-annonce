@@ -21,12 +21,12 @@ class ViewController: UIViewController {
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
-				super.viewDidAppear(animated)
+		super.viewDidAppear(animated)
 
-				DispatchQueue.main.asyncAfter(deadline: (.now() + .milliseconds(500))) {
-					self.categoryCollectionView!.flashScrollIndicators()
-				}
+		DispatchQueue.main.asyncAfter(deadline: (.now() + .milliseconds(500))) {
+			self.categoryCollectionView!.flashScrollIndicators()
 		}
+	}
 
 	// MARK: - Properties
 	private var adsViewModel : AdvertisementViewModel!
@@ -53,14 +53,14 @@ class ViewController: UIViewController {
 	lazy var categoryCollectionView: UICollectionView? = {
 		let layout = UICollectionViewFlowLayout()
 		layout.estimatedItemSize = .zero
-//		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+		//		layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		layout.minimumInteritemSpacing = 0
 		layout.minimumLineSpacing = 3
 		layout.scrollDirection = .horizontal
 
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCollectionViewCell")
-//		collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+		//		collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 		collectionView.backgroundColor = .white
 		collectionView.delegate = self
 		collectionView.dataSource = self
@@ -84,8 +84,15 @@ class ViewController: UIViewController {
 	func callToViewModelForUIUpdate(){
 
 		self.adsViewModel =  AdvertisementViewModel()
-		self.adsViewModel.bindAdsViewModelToController = {
-			self.updateDataSource()
+		self.adsViewModel.bindAdsViewModelToController = { (error) in
+			if let error = error {
+				let alert = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
+
+				alert.addAction(UIAlertAction(title: "OK", style: .default))
+				self.present(alert, animated: true)
+			} else {
+				self.updateDataSource()
+			}
 		}
 	}
 
@@ -155,15 +162,15 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
 
 		if (collectionView.tag == 0) {
 
-		if UIDevice.current.orientation.isLandscape {
-			width = UIScreen.main.bounds.width/3 - 9
-			return CGSize(width: width, height: 300)
+			if UIDevice.current.orientation.isLandscape {
+				width = UIScreen.main.bounds.width/3 - 9
+				return CGSize(width: width, height: 300)
 
-		} else {
-			width = UIScreen.main.bounds.width/2 - 6
-			return CGSize(width: width - 6, height: 300)
+			} else {
+				width = UIScreen.main.bounds.width/2 - 6
+				return CGSize(width: width - 6, height: 300)
 
-		}
+			}
 		} else {
 			return CGSize(width: 120, height: 30)
 		}
@@ -194,7 +201,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
 			adsCollectionView?.setContentOffset(CGPoint(x: -10, y: 5), animated: true)
 
 			adsCollectionView?.reloadData()
-			}
+		}
 
 
 	}

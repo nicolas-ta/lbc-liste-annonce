@@ -24,14 +24,15 @@ class AdvertisementViewModel: NSObject {
 
 	private(set) var filteredAdsData: Advertisements! {
 		didSet {
-			self.bindAdsViewModelToController()
+			self.bindAdsViewModelToController(error)
 		}
 	}
 
+	var error: Error?
 	var category: [Int: String]!
 	var selectedCategoryIndex: Int = 0
 	var selectedAd: Advertisement?
-	var bindAdsViewModelToController : (() -> ()) = {}
+	var bindAdsViewModelToController : ((Error?) -> ()) = {error in }
 
 	override init() {
 		super.init()
@@ -90,6 +91,7 @@ class AdvertisementViewModel: NSObject {
 		self.apiService.getCategoriesData { (categories, error) in
 
 			if let error = error {
+
 				print("error:", error)
 				return
 			}
