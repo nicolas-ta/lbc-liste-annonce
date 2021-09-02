@@ -14,6 +14,7 @@
 - Liste des annonces filtrable en cliquant sur une catégorie, qui fait également remonter la liste au début
 - Page de détail de chaque annonce en cliquant sur l'annonce correspondante pour afficher: Photo, Titre, Prix, Description, Siret, Date de publication
 - Photo dans la page de détail cliquable pour l'afficher en plein écran pour pouvoir zoomer
+- Chargement des images de manière asynchrone pour ne pas bloquer la main thread
 
 
 
