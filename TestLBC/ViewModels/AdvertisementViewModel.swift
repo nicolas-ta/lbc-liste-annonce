@@ -42,7 +42,7 @@ class AdvertisementViewModel: NSObject {
 	var category: [Int: String]!
 	var selectedCategoryIndex: Int = 0
 	var selectedAd: Advertisement?
-	var bindAdsViewModelToController: ((APIError?) -> Void) = {error in }
+	var bindAdsViewModelToController: ((APIError?) -> Void) = {_ in }
 
 	// MARK: - Lifetime
 	override init() {

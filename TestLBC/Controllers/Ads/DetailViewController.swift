@@ -136,7 +136,7 @@ class DetailViewController: UIViewController {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 14)
 		label.textColor = .white
-		label.backgroundColor = .orangeLBC
+		label.backgroundColor = .mainColor
 		label.layer.cornerRadius = 5
 		label.layer.masksToBounds = true
 		label.numberOfLines = 1
@@ -161,11 +161,16 @@ class DetailViewController: UIViewController {
 extension DetailViewController {
 	// Hide the navigation bar but keep the previous button
 	private func setupNavigationBar() {
-		self.navigationController?.setNavigationBarHidden(false, animated: true)
-		self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-		self.navigationController?.navigationBar.shadowImage = UIImage()
-		self.navigationController?.navigationBar.isTranslucent = true
-		self.navigationController?.view.backgroundColor = .clear
+
+		guard let navController = self.navigationController else {
+			return
+		}
+		
+		navController.setNavigationBarHidden(false, animated: true)
+		navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		navController.navigationBar.shadowImage = UIImage()
+		navController.navigationBar.isTranslucent = true
+		navController.view.backgroundColor = .clear
 	}
 
 	// Setup the UI elements without any data
@@ -273,8 +278,9 @@ extension DetailViewController {
 extension DetailViewController {
 	// Display the product image in full screen, zoomable, when the image is tapped
 	@objc private func fullScreenImage(_ sender: UITapGestureRecognizer) {
-		let imageView = sender.view as! UIImageView
+		if let imageView = sender.view as? UIImageView {
 		productImageFullscreen = UIImageView(image: imageView.image)
+		}
 		productImageFullscreen.frame = UIScreen.main.bounds
 		productImageFullscreen.contentMode = .scaleAspectFit
 		productImageFullscreen.isUserInteractionEnabled = true

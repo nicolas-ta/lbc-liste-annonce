@@ -83,7 +83,9 @@ class AdsViewController: UIViewController {
 	// Momentarily show the scroll indicator to show  that it's scrollable
 	private func showScrollableIndicator() {
 		DispatchQueue.main.asyncAfter(deadline: (.now() + .milliseconds(500))) {
-			self.categoriesCollectionView!.flashScrollIndicators()
+			if let categoriesCV = self.categoriesCollectionView {
+				categoriesCV.flashScrollIndicators()
+			}
 		}
 	}
 
@@ -108,8 +110,9 @@ class AdsViewController: UIViewController {
 	// Once the data is established, reload the collectionviews
 	private func updateDataSource() {
 		DispatchQueue.main.async {
-			self.adsCollectionView?.reloadData()
-			self.categoriesCollectionView?.reloadData()
+			if let adsCV = self.adsCollectionView, let categoriesCV = self.categoriesCollectionView {
+				adsCV.reloadData()
+				categoriesCV.reloadData()}
 		}
 	}
 }
@@ -119,7 +122,9 @@ extension AdsViewController {
 	private func setupUI() {
 
 		// Hide navigation bar
-		self.navigationController?.setNavigationBarHidden(true, animated: true)
+		if let navController = self.navigationController {
+			navController.setNavigationBarHidden(true, animated: true)
+		}
 
 		guard let adsCollectionView = adsCollectionView, let categoriesCollectionView = categoriesCollectionView else {
 			return
@@ -233,7 +238,9 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 		}
 
 		if collectionView.tag == 0 {
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ADS_CELL_IDENTIFIER, for: indexPath) as! AdsCollectionViewCell
+			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ADS_CELL_IDENTIFIER, for: indexPath) as? AdsCollectionViewCell else {
+				return UICollectionViewCell()
+						}
 
 			let currentAd = data.filteredAdsData[indexPath.item]
 			cell.data = currentAd
@@ -248,7 +255,7 @@ extension AdsViewController: UICollectionViewDataSource, UICollectionViewDelegat
 			title.textColor = isSelected ? .white : .darkGray
 			title.layer.cornerRadius = 5
 			title.layer.masksToBounds = true
-			title.backgroundColor = isSelected ? .orangeLBC: .grayBackground
+			title.backgroundColor = isSelected ? .mainColor: .grayBackground
 			title.text = String(data.categories[indexPath.item].name)
 			title.textAlignment = .center
 			catCell.contentView.addSubview(title)

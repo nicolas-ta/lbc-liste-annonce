@@ -108,7 +108,7 @@ class AdsCollectionViewCell: UICollectionViewCell {
 		let label = UILabel()
 		label.font = UIFont.systemFont(ofSize: 14)
 		label.textColor = .white
-		label.backgroundColor = .orangeLBC
+		label.backgroundColor = .mainColor
 		label.layer.cornerRadius = 5
 		label.layer.masksToBounds = true
 		label.numberOfLines = 1

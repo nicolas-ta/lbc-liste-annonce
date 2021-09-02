@@ -13,18 +13,26 @@ class AdsViewModelTest: XCTestCase {
 	var mockData: Advertisements!
 
 	func testInitAdvertisement() {
-		let ad = Advertisement(id: 0, categoryID: 0, title: "Test0", advertisementDescription: "Test 0 0", price: 120, imagesURL: ImagesURL(small: nil, thumb: nil), creationDate: "2019-10-16T17:10:20+0000", isUrgent: false, siret: nil)
+		let adv = Advertisement(
+			id: 0,
+			categoryID: 0,
+			title: "Test0",
+			advertisementDescription: "Test 0 0",
+			price: 120,
+			imagesURL: ImagesURL(small: nil, thumb: nil),
+			creationDate: "2019-10-16T17:10:20+0000",
+			isUrgent: false, siret: nil)
 
-		XCTAssertEqual(0, ad.id)
-		XCTAssertEqual(0, ad.categoryID)
-		XCTAssertEqual("Test0", ad.title)
-		XCTAssertEqual(120, ad.price)
-		XCTAssertEqual(nil, ad.imagesURL.small)
-		XCTAssertEqual(nil, ad.imagesURL.thumb)
-		XCTAssertEqual("Test 0 0", ad.advertisementDescription)
-		XCTAssertEqual("2019-10-16T17:10:20+0000", ad.creationDate)
-		XCTAssertEqual(false, ad.isUrgent)
-		XCTAssertEqual(nil, ad.siret)
+		XCTAssertEqual(0, adv.id)
+		XCTAssertEqual(0, adv.categoryID)
+		XCTAssertEqual("Test0", adv.title)
+		XCTAssertEqual(120, adv.price)
+		XCTAssertEqual(nil, adv.imagesURL.small)
+		XCTAssertEqual(nil, adv.imagesURL.thumb)
+		XCTAssertEqual("Test 0 0", adv.advertisementDescription)
+		XCTAssertEqual("2019-10-16T17:10:20+0000", adv.creationDate)
+		XCTAssertEqual(false, adv.isUrgent)
+		XCTAssertEqual(nil, adv.siret)
 	}
 
 	func testSortAdvertisement() {
@@ -36,8 +44,20 @@ class AdsViewModelTest: XCTestCase {
 
 	override func setUpWithError() throws {
 		mockData = [
-			Advertisement(id: 0, categoryID: 0, title: "Test0", advertisementDescription: "Test 0 0", price: 120, imagesURL: ImagesURL(small: nil, thumb: nil), creationDate: "2019-10-16T17:10:20+0000", isUrgent: false, siret: nil),
-			Advertisement(id: 1, categoryID: 1, title: "Test1", advertisementDescription: "Test 0 0", price: 300, imagesURL: ImagesURL(small: nil, thumb: nil), creationDate: "2019-11-05T15:56:55+0000", isUrgent: true, siret: "123 323 002")]
+			Advertisement(id: 0,
+										categoryID: 0,
+										title: "Test0",
+										advertisementDescription: "Test 0 0",
+										price: 120, imagesURL: ImagesURL(small: nil, thumb: nil), creationDate: "2019-10-16T17:10:20+0000",
+										isUrgent: false, siret: nil),
+			Advertisement(id: 1,
+										categoryID: 1,
+										title: "Test1",
+										advertisementDescription: "Test 0 0",
+										price: 300,
+										imagesURL: ImagesURL(small: nil, thumb: nil), creationDate: "2019-11-05T15:56:55+0000",
+										isUrgent: true,
+										siret: "123 323 002")]
 		// Put setup code here. This method is called before the invocation of each test method in the class.
 
 	}

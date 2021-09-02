@@ -8,6 +8,6 @@
 import UIKit
 
 extension UIColor {
-	static let orangeLBC = UIColor(named: "orange_lbc")
+	static let mainColor = UIColor(named: "orange_lbc")
 	static let grayBackground = UIColor(named: "gray_background")
 }
